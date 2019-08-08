@@ -19,6 +19,6 @@ public class WebDriverSettings {
 
     @After
     public void close() throws InterruptedException {
-//        driver.quit();
+       driver.quit();
     }
 }
