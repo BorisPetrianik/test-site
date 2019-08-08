@@ -53,9 +53,15 @@ public class FirstTest extends WebDriverSettings {
 
         // Wait for loading survey page
         Thread.sleep(10000);
-        String[] possibleUrls = new String[]{"https://www.wrike.com/resend-va/", "https://www.wrike.com/resend-vb/"};
+        String[] possibleUrls = new String[]{"https://www.wrike.com/resend-va/", "https://www.wrike.com/resend-vb/", "https://www.wrike.com/resend/"};
         boolean hasBeenRedirected = new LinkedList<String>(Arrays.asList(possibleUrls)).contains(driver.getCurrentUrl());
         Assert.assertTrue(hasBeenRedirected);
+
+        WrikeSurveyPage wsp = new WrikeSurveyPage(driver);
+        wsp.chooseOption(0);
+        wsp.chooseOption(5);
+        wsp.chooseOption(8);
+        wsp.submit();
 //Assert.assertTrue(new LinkedList("https://www.wrike.com/resend-va/", "https://www.wrike.com/resend-vb/").contains(driver.getCurrentUrl()));
 //        WrikeSurveyPage wsp = new WrikeSurveyPage(driver);
 
