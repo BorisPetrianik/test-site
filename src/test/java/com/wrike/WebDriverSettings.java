@@ -17,5 +17,4 @@ public class WebDriverSettings {
     public void close() {
         driver.quit();
     }
-
 }
