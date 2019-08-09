@@ -43,6 +43,16 @@ public class FirstTest extends WebDriverSettings {
         return sb.toString() + "wpt@wriketask.qaa";
     }
 
+    private static int getRandomNumberInRange(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
+
     @Test
     public void firstTest() throws InterruptedException {
 
@@ -51,29 +61,25 @@ public class FirstTest extends WebDriverSettings {
         WrikeGetStartedPage getStartedPage = wip.getStarted();
         getStartedPage.fillEmail(FirstTest.getRandomEmail());
         getStartedPage.submit();
+            // Wait for loading survey page
+            WebDriverWait wait = new WebDriverWait(driver, 10);
+            wait.until(ExpectedConditions.urlContains("resend"));
 
-        // Wait for loading survey page
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        Thread.sleep(10000);
-
-        String[] possibleUrls = new String[]{"https://www.wrike.com/resend-va/", "https://www.wrike.com/resend-vb/", "https://www.wrike.com/resend/"};
-        boolean hasBeenRedirected = new LinkedList<String>(Arrays.asList(possibleUrls)).contains(driver.getCurrentUrl());
-        Assert.assertTrue(hasBeenRedirected);
-        WrikeSurveyPage wsp = new WrikeSurveyPage();
-        if (driver.getCurrentUrl().equals(possibleUrls[1])) {
+            String[] possibleUrls = new String[]{"https://www.wrike.com/resend-va/", "https://www.wrike.com/resend-vb/", "https://www.wrike.com/resend/"};
+            boolean hasBeenRedirected = new LinkedList<String>(Arrays.asList(possibleUrls)).contains(driver.getCurrentUrl());
+            Assert.assertTrue(hasBeenRedirected);
+            WrikeSurveyPage wsp = new WrikeSurveyPage();
+            if (driver.getCurrentUrl().equals(possibleUrls[1])) {
                 wsp.WrikeSurveyPageB(driver);
+            } else {
+                wsp.WrikeSurveyPageA(driver);
             }
-        else
-        {
-            wsp.WrikeSurveyPageA(driver);
-        }
-        wsp.chooseOption(0);
-        wsp.chooseOption(5);
-        wsp.chooseOption(7);
-        wsp.submit();
-
-        WebElement twitter = driver.findElement(By.cssSelector("[href=\"https://twitter.com/wrike\"]"));
-        Assert.assertTrue(twitter.getAttribute("href").equals("https://twitter.com/wrike"));
+            wsp.chooseOption(getRandomNumberInRange(0,1));
+            wsp.chooseOption(getRandomNumberInRange(2,6));
+            wsp.chooseOption(9);
+            wsp.submit();
+            wsp.checkImageLink();
+            wsp.checkIconImage(0);
     }
 
 }
