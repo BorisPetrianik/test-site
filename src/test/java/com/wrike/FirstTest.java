@@ -76,7 +76,7 @@ public class FirstTest extends WebDriverSettings {
             }
             wsp.chooseOption(getRandomNumberInRange(0,1));
             wsp.chooseOption(getRandomNumberInRange(2,6));
-            wsp.chooseOption(9);
+            wsp.chooseOption(getRandomNumberInRange(7,9));
             wsp.submit();
             wsp.checkImageLink();
             wsp.checkIconImage(0);
